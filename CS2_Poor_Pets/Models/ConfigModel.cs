@@ -23,28 +23,22 @@ namespace CS2_Poor_Pets.Models
         public bool isVipOnly { get; set; } = false;
         [JsonPropertyName("petModel")]
         public string PetModel { get; set; } = "";
-
         [JsonPropertyName("idleAnimation")]
         public string idleAnimation { get; set; } = "@courier_idle";
-
         [JsonPropertyName("runAnimation")]
         public string runAnimation { get; set; } = "@courier_run";
-
         [JsonPropertyName("spawnAnimation")]
         public string spawnAnimation { get; set; } = "@courier_spawn";
-
         [JsonPropertyName("isFlying")]
         public bool isFlying { get; set; } = true;
         [JsonPropertyName("moveSpeed")]
         public float moveSpeed { get; set; }
         [JsonPropertyName("rotationOffset")]
         public float rotationOffset { get; set; }
-
         [JsonPropertyName("followDistance")]
         public float followDistance { get; set; }
         [JsonPropertyName("stopDistance")]
         public float stopDistance { get; set; }
-
         [JsonPropertyName("offset")]
         public float[]? offset { get; set; }
 
