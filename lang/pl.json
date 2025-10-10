@@ -1,0 +1,9 @@
+{
+    "ChooseCategory": "Wybierz kategorie",
+    "Pets4AllMenu": "Zwierzatka dla wszystkich",
+    "Pets4VipsMenu": "Zwierzatka dla vipow",
+    "RemovePetMenu": "Usun zwierzatko",
+    "RemovedPetPlayerNotification": "{lime}[PoorPets]{default} Usunieto zwierzatko!",
+    "RemovedPetPlayerError": "{lime}[PoorPets]{darkred} Wystapil problem z usunieciem twojego zwierzatka.",
+    "PlayerSetPetNotification": "{lime}[PoorPets]{default} Pomyslnie utworzono zwierzatko dla Ciebie!"
+}

@@ -1,0 +1,9 @@
+{
+    "ChooseCategory": "Choose Category",
+    "Pets4AllMenu": "Pets for all",
+    "Pets4VipsMenu": "Pets for vips",
+    "RemovePetMenu": "Remove pet",
+    "RemovedPetPlayerNotification": "{lime}[PoorPets]{default} Removed pet succesfully!",
+    "RemovedPetPlayerError": "{lime}[PoorPets]{darkred} Something went wrong with deleting Your pet.",
+    "PlayerSetPetNotification": "{lime}[PoorPets]Succesfully created a new pet for You!"
+}
