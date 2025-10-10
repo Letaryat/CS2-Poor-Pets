@@ -3,7 +3,7 @@
     "Pets4AllMenu": "Pets for all",
     "Pets4VipsMenu": "Pets for vips",
     "RemovePetMenu": "Remove pet",
-    "RemovedPetPlayerNotification": "{lime}[PoorPets]{default} Removed pet succesfully!",
+    "RemovedPetPlayerNotification": "{lime}[PoorPets]{default} Removed pet successfully!",
     "RemovedPetPlayerError": "{lime}[PoorPets]{darkred} Something went wrong with deleting Your pet.",
-    "PlayerSetPetNotification": "{lime}[PoorPets]Succesfully created a new pet for You!"
+    "PlayerSetPetNotification": "{lime}[PoorPets]Successfully created a new pet for You!"
 }
