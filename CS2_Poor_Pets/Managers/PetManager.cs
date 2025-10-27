@@ -94,7 +94,8 @@ namespace CS2_Poor_Pets
                 offset = petConfig.offset!,
                 idleAnimation = petConfig.idleAnimation,
                 runAnimation = petConfig.runAnimation,
-                deathAnimation = petConfig.deathAnimation
+                deathAnimation = petConfig.deathAnimation,
+                ownerDead = false
             };
         }
 
@@ -219,6 +220,7 @@ namespace CS2_Poor_Pets
                 Server.NextFrame(() =>
                 {
                     var pet = PlayerPetEntities[player][0];
+                    pet.ownerDead = true;
                     pet.entity!.AcceptInput("SetAnimation", value: pet.deathAnimation!);
                     _plugin.AddTimer(_plugin.Config.timeAfterDeathToDeletePet, () =>
                     {

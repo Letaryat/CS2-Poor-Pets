@@ -165,13 +165,15 @@ namespace CS2_Poor_Pets
 
                         if (!petModel.isMoving)
                         {
-                            if(playerPawn.LifeState == (byte)LifeState_t.LIFE_DEAD)
+                            if (petModel.ownerDead)
                             {
-                                petModel.entity!.AcceptInput("SetAnimation", value: petModel.deathAnimation!);
                                 return;
-                            }   
-                            petModel!.entity.AcceptInput("SetAnimation", value: petModel.runAnimation!);
-                            petModel.isMoving = true;
+                            }
+                            else
+                            {
+                                petModel!.entity.AcceptInput("SetAnimation", value: petModel.runAnimation!);
+                                petModel.isMoving = true;
+                            }
                         }
                         petModel.physbox.AcceptInput("Open");
                     });
@@ -195,11 +197,7 @@ namespace CS2_Poor_Pets
             if (playerController != null && PetManager.PlayerPetEntities.TryGetValue(playerController, out var pet))
             {
                 pet[0].isMoving = false;
-                if (playerPawn.LifeState == (byte)LifeState_t.LIFE_DEAD)
-                {
-                    _plugin.PetManager!.RemovePetEntityOnPlayerDeath(playerController);
-                }
-                else
+                if (!pet[0].ownerDead)
                 {
                     pet[0].entity!.AcceptInput("SetAnimation", value: pet[0].idleAnimation!);
                 }
