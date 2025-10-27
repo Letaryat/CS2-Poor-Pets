@@ -60,7 +60,10 @@ namespace CS2_Poor_Pets
             var pawn = player.PlayerPawn.Value;
             if (pawn == null || !pawn.IsValid) return HookResult.Continue;
 
+            if (!PetManager.PlayerChosenPet.ContainsKey(player)) return HookResult.Continue;
+
             var pet = _plugin.PetManager!.CreateSimplePet(player, _plugin.Config.Pets[PetManager.PlayerChosenPet[player]]);
+
             if (pet != null)
             {
                 if (!PetManager.PlayerPetEntities.ContainsKey(player))
