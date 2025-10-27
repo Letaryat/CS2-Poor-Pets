@@ -94,6 +94,7 @@ namespace CS2_Poor_Pets
                 offset = petConfig.offset!,
                 idleAnimation = petConfig.idleAnimation,
                 runAnimation = petConfig.runAnimation,
+                deathAnimation = petConfig.deathAnimation
             };
         }
 
@@ -195,7 +196,7 @@ namespace CS2_Poor_Pets
         {
             try
             {
-                foreach(var p in PlayerChosenPet)
+                foreach (var p in PlayerChosenPet)
                 {
                     var steamid = p.Key.SteamID;
                     Task.Run(async () =>
@@ -204,12 +205,29 @@ namespace CS2_Poor_Pets
                     });
                 }
             }
-            catch(Exception error)
+            catch (Exception error)
             {
                 _plugin.DebugLog($"Error saving all players: {error}");
             }
         }
 
+        public void RemovePetEntityOnPlayerDeath(CCSPlayerController player)
+        {
+            if (player == null) return;
+            if (PlayerPetEntities.ContainsKey(player))
+            {
+                Server.NextFrame(() =>
+                {
+                    var pet = PlayerPetEntities[player][0];
+                    pet.entity!.AcceptInput("SetAnimation", value: pet.deathAnimation!);
+                    _plugin.AddTimer(_plugin.Config.timeAfterDeathToDeletePet, () =>
+                    {
+                        pet.physbox!.Remove();
+                        pet.entity!.Remove();
+                    });
+                });
+            }
+        }
         public void ClearPetsCache()
         {
             if (PlayerChosenPet != null)

@@ -15,6 +15,7 @@ namespace CS2_Poor_Pets
         {
             _plugin.RegisterEventHandler<EventPlayerConnectFull>(OnPlayerConnectFull);
             _plugin.RegisterEventHandler<EventPlayerSpawn>(OnPlayerSpawn);
+            _plugin.RegisterEventHandler<EventPlayerDeath>(OnPlayerDeath);
             _plugin.RegisterEventHandler<EventPlayerDisconnect>(OnPlayerDisconnect);
 
             //Listeners:
@@ -26,7 +27,6 @@ namespace CS2_Poor_Pets
             _plugin.HookEntityOutput("func_movelinear", "OnFullyClosed", OnFullyClosed);
 
         }
-
 
         private HookResult OnPlayerConnectFull(EventPlayerConnectFull @event, GameEventInfo info)
         {
@@ -68,6 +68,16 @@ namespace CS2_Poor_Pets
 
                 PetManager.PlayerPetEntities[player][0] = pet;
             }
+
+            return HookResult.Continue;
+        }
+
+        private HookResult OnPlayerDeath(EventPlayerDeath @event, GameEventInfo info)
+        {
+            var player = @event.Userid;
+            if (player == null) return HookResult.Continue;
+
+            _plugin.PetManager!.RemovePetEntityOnPlayerDeath(player);
 
             return HookResult.Continue;
         }
@@ -155,6 +165,11 @@ namespace CS2_Poor_Pets
 
                         if (!petModel.isMoving)
                         {
+                            if(playerPawn.LifeState == (byte)LifeState_t.LIFE_DEAD)
+                            {
+                                petModel.entity!.AcceptInput("SetAnimation", value: petModel.deathAnimation!);
+                                return;
+                            }   
                             petModel!.entity.AcceptInput("SetAnimation", value: petModel.runAnimation!);
                             petModel.isMoving = true;
                         }
@@ -180,7 +195,14 @@ namespace CS2_Poor_Pets
             if (playerController != null && PetManager.PlayerPetEntities.TryGetValue(playerController, out var pet))
             {
                 pet[0].isMoving = false;
-                pet[0].entity!.AcceptInput("SetAnimation", value: pet[0].idleAnimation!);
+                if (playerPawn.LifeState == (byte)LifeState_t.LIFE_DEAD)
+                {
+                    _plugin.PetManager!.RemovePetEntityOnPlayerDeath(playerController);
+                }
+                else
+                {
+                    pet[0].entity!.AcceptInput("SetAnimation", value: pet[0].idleAnimation!);
+                }
             }
 
             return HookResult.Continue;
