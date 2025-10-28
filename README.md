@@ -1,5 +1,6 @@
 # CS2-Poor-Pets
 This plugin allows for players to create a little companion that would follow them around.<br/>
+[![poor-developer discord server](https://i.imgur.com/8L6KsUZ.png)](https://discord.gg/mEmdyqM3Um)
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/H2H8TK0L9)
 
 ## [📺] Video presentation
