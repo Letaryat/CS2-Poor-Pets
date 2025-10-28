@@ -50,31 +50,39 @@ namespace CS2_Poor_Pets
             physbox.AcceptInput("Open");
 
             var entity = Utilities.CreateEntityByName<CDynamicProp>("prop_dynamic");
-            if (entity == null) return null;
+            if (entity == null || !entity.IsValid) return null;
 
             entity.CBodyComponent!.SceneNode!.Owner!.Entity!.Flags &= ~(uint)(1 << 2);
             entity.SetModel(petConfig.PetModel);
             entity.DispatchSpawn();
 
-            if (!string.IsNullOrEmpty(petConfig.spawnAnimation))
-            {
-                entity.AcceptInput("SetAnimation", value: petConfig.spawnAnimation);
-            }
-            else if (!string.IsNullOrEmpty(petConfig.idleAnimation))
-            {
-                entity.AcceptInput("SetAnimation", value: petConfig.idleAnimation);
-            }
 
-            _plugin.AddTimer(1.08f, () =>
+            Server.NextWorldUpdate(() =>
             {
-                entity.AcceptInput("SetAnimation", value: petConfig.idleAnimation);
+                if (entity == null || !entity.IsValid) return;
+                
+                if (!string.IsNullOrEmpty(petConfig.spawnAnimation))
+                {
+                    entity.AcceptInput("SetAnimation", value: petConfig.spawnAnimation);
+                }
+                else if (!string.IsNullOrEmpty(petConfig.idleAnimation))
+                {
+                    entity.AcceptInput("SetAnimation", value: petConfig.idleAnimation);
+                }
+
+                _plugin.AddTimer(1.08f, () =>
+                {
+                    entity.AcceptInput("SetAnimation", value: petConfig.idleAnimation);
+                });
+
+                entity.AcceptInput("Start");
+                entity.AcceptInput("FollowEntity", physbox, entity, "!activator");
+
+
+                entity.Teleport(startPos, new QAngle(0, 0, 0), new Vector(0, 0, 0));
             });
 
-            entity.AcceptInput("Start");
-            entity.AcceptInput("FollowEntity", physbox, entity, "!activator");
 
-
-            entity.Teleport(startPos, new QAngle(0, 0, 0), new Vector(0, 0, 0));
 
             _plugin.DebugLog($"Creating pet for player {player.PlayerName} with model {petConfig.PetModel} at: {startPos}");
 
@@ -94,6 +102,8 @@ namespace CS2_Poor_Pets
                 offset = petConfig.offset!,
                 idleAnimation = petConfig.idleAnimation,
                 runAnimation = petConfig.runAnimation,
+                deathAnimation = petConfig.deathAnimation,
+                ownerDead = false
             };
         }
 
@@ -195,7 +205,7 @@ namespace CS2_Poor_Pets
         {
             try
             {
-                foreach(var p in PlayerChosenPet)
+                foreach (var p in PlayerChosenPet)
                 {
                     var steamid = p.Key.SteamID;
                     Task.Run(async () =>
@@ -204,12 +214,30 @@ namespace CS2_Poor_Pets
                     });
                 }
             }
-            catch(Exception error)
+            catch (Exception error)
             {
                 _plugin.DebugLog($"Error saving all players: {error}");
             }
         }
 
+        public void RemovePetEntityOnPlayerDeath(CCSPlayerController player)
+        {
+            if (player == null) return;
+            if (PlayerPetEntities.ContainsKey(player))
+            {
+                Server.NextFrame(() =>
+                {
+                    var pet = PlayerPetEntities[player][0];
+                    pet.ownerDead = true;
+                    pet.entity!.AcceptInput("SetAnimation", value: pet.deathAnimation!);
+                    _plugin.AddTimer(_plugin.Config.timeAfterDeathToDeletePet, () =>
+                    {
+                        pet.physbox!.Remove();
+                        pet.entity!.Remove();
+                    });
+                });
+            }
+        }
         public void ClearPetsCache()
         {
             if (PlayerChosenPet != null)

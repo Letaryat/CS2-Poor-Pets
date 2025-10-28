@@ -20,5 +20,7 @@ namespace CS2_Poor_Pets.Models
         public required float[] offset { get; set; }
         public string? idleAnimation { get; set; }
         public string? runAnimation { get; set; }
+        public string? deathAnimation { get; set; }
+        public bool ownerDead { get; set; }
     }
 }

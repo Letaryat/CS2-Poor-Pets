@@ -1,5 +1,6 @@
 # CS2-Poor-Pets
 This plugin allows for players to create a little companion that would follow them around.<br/>
+[![poor-developer discord server](https://i.imgur.com/8L6KsUZ.png)](https://discord.gg/mEmdyqM3Um)
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/H2H8TK0L9)
 
 ## [📺] Video presentation
@@ -32,6 +33,7 @@ This plugin allows for players to create a little companion that would follow th
 | idleAnimation (string) | Animation for a pet when idling |
 | runAnimation (string) | Animation for a pet when running |
 | spawnAnimation (string) | Animation for a pet when spawning |
+| deathAnimation (string) | Animation for a pet when player dies |
 | isFlying (bool) | If pet should fly |
 | moveSpeed (float) | Speed of a pet |
 | rotationOffset (float) | Rotation offset of pet model |
@@ -50,6 +52,8 @@ This plugin allows for players to create a little companion that would follow th
     "DB_Password": "password"
   },
   "VipFlag": "@pets/vip",
+  "UpdatePerTicks": 35,
+  "TimeAfterDeathToDeletePet": 10,
   "Pets": [
     {
       "petName": "Beaver",

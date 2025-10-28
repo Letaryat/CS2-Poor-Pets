@@ -16,19 +16,19 @@ public class MenuManager(CS2_Poor_PetsPlugin plugin)
         {
             menu.AddItem(_plugin.Localizer["Pets4AllMenu"], (p, o) =>
             {
-                CreatePetsMenu(p, null, _plugin.Localizer["Pets4AllMenu"]);
+                CreatePetsMenu(p, null, _plugin.Localizer["Pets4AllMenu"], menu);
             });
         }
         else
         {
             menu.AddItem(_plugin.Localizer["Pets4AllMenu"], (p, o) =>
             {
-                CreatePetsMenu(p, false, _plugin.Localizer["Pets4AllMenu"]);
+                CreatePetsMenu(p, false, _plugin.Localizer["Pets4AllMenu"], menu);
             });
 
             menu.AddItem(_plugin.Localizer["Pets4VipsMenu"], (p, o) =>
             {
-                CreatePetsMenu(p, true, _plugin.Localizer["Pets4VipsMenu"]);
+                CreatePetsMenu(p, true, _plugin.Localizer["Pets4VipsMenu"], menu);
             },
             disableOption: AdminManager.PlayerHasPermissions(player, _plugin.Config.vipFlag)
                 ? CS2MenuManager.API.Enum.DisableOption.None
@@ -46,9 +46,10 @@ public class MenuManager(CS2_Poor_PetsPlugin plugin)
         menu.Display(player, 0);
     }
 
-    private void CreatePetsMenu(CCSPlayerController player, bool? isVipMenu, string title)
+    private void CreatePetsMenu(CCSPlayerController player, bool? isVipMenu, string title, WasdMenu? parentMenu)
     {
         WasdMenu menu = new(title, _plugin);
+        menu.PrevMenu = parentMenu;
 
         foreach (var tuple in _plugin.Config.Pets.Select((pet, idx) => new { pet, idx }))
         {

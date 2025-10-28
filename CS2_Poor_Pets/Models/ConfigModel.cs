@@ -29,6 +29,9 @@ namespace CS2_Poor_Pets.Models
         public string runAnimation { get; set; } = "@courier_run";
         [JsonPropertyName("spawnAnimation")]
         public string spawnAnimation { get; set; } = "@courier_spawn";
+        [JsonPropertyName("deathAnimation")]
+        public string deathAnimation { get; set; } = "@courier_death";
+
         [JsonPropertyName("isFlying")]
         public bool isFlying { get; set; } = true;
         [JsonPropertyName("moveSpeed")]

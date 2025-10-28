@@ -14,6 +14,9 @@ namespace CS2_Poor_Pets.Core
         [JsonPropertyName("UpdatePerTicks")]
         public float perTicks { get; set; } = 35;
 
+        [JsonPropertyName("TimeAfterDeathToDeletePet")]
+        public float timeAfterDeathToDeletePet { get; set; } = 10.0f;
+
         [JsonPropertyName("Pets")]
         public List<PetConfigModel> Pets { get; set; } = new()
         {
