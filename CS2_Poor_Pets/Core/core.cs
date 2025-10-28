@@ -8,7 +8,7 @@ public class CS2_Poor_PetsPlugin : BasePlugin, IPluginConfig<PluginConfig>
     public override string ModuleName => "CS2 Poor Pets";
     public override string ModuleAuthor => "Letaryat | https://github.com/letaryat/";
     public override string ModuleDescription => "Makes a pet that follows the player around.";
-    public override string ModuleVersion => "1.0";
+    public override string ModuleVersion => "1.1";
 
     public required PluginConfig Config { get; set; }
     public EventManager? EventManager { get; private set; }
